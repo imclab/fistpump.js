@@ -38,7 +38,7 @@
 
       socket.on('browserVolume', function (data) {
         var value = $("#audio-controls")[0].volume;
-        $("#audio-controls")[0].volume = value + (1 / 100);
+        $("#audio-controls")[0].volume = value + (1 / 200);
         console.log("here")
         drawChart();
       });
