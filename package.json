@@ -1,0 +1,23 @@
+{
+  "author": "Mike Swift <swift@sendgrid.com> (http://theycallmeswift.com)",
+  "name": "fistbump.js",
+  "description": "Crowdsource you volume",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/astanway/fistbump.js.git"
+  },
+  "dependencies": {
+    "express": "2.5.9",
+    "socket.io": "0.9.6"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "0.6.x"
+  },
+  "subdomain": "fistpump",
+  "scripts": {
+    "start": "server.js"
+  }
+}
