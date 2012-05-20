@@ -2,7 +2,7 @@
   "author": "Mike Swift <swift@sendgrid.com> (http://theycallmeswift.com)",
   "name": "fistbump.js",
   "description": "Crowdsource you volume",
-  "version": "0.0.0-1",
+  "version": "0.0.0-2",
   "repository": {
     "type": "git",
     "url": "git://github.com/astanway/fistbump.js.git"
