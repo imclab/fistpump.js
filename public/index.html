@@ -1,35 +1,45 @@
-<html>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-  var socket = io.connect(window.location.origin);
-  var y = 0;
-  var z = 0;
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fistbumb.js</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  </head>
 
-  position = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
-  var lastHit = new Date().getTime()
-  window.addEventListener('devicemotion', function(event) {
-    y = event.acceleration.y
-    z = event.acceleration.z
-    if(Math.sqrt(Math.pow(y * 15, 2) + Math.pow(z * 15, 2)) > 100){
-      var next = new Date().getTime()
-      if(next - lastHit > 300){
-        lastHit = next;
-        socket.emit('gotVelocity', position)
-      } 
-    }
-  })
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect(window.location.origin);
+    var y = 0;
+    var z = 0;
 
-  var b = 0;
-  var g = 0;
-  window.addEventListener('deviceorientation', function(event){
-    b = event.beta;
-    g = event.gamma;
-  }, true)  
+    position = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
+    var lastHit = new Date().getTime()
+    window.addEventListener('devicemotion', function(event) {
+      y = event.acceleration.y
+      z = event.acceleration.z
+      if(Math.sqrt(Math.pow(y * 15, 2) + Math.pow(z * 15, 2)) > 100){
+        var next = new Date().getTime()
+        if(next - lastHit > 300){
+          lastHit = next;
+          socket.emit('gotVelocity', position)
+        } 
+      }
+    })
+
+    var b = 0;
+    var g = 0;
+    window.addEventListener('deviceorientation', function(event){
+      b = event.beta;
+      g = event.gamma;
+    }, true)  
   
-  socket.on('get' + position + 'Velocity', function(){
-    data = {'y' : y, 'z': z, 'b': b, 'g': g}
-    socket.emit('clientVelocity', data);
-  })
+    socket.on('get' + position + 'Velocity', function(){
+      data = {'y' : y, 'z': z, 'b': b, 'g': g}
+      socket.emit('clientVelocity', data);
+    })
   
-</script>
+  </script>
+  </body>
 </html>

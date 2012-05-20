@@ -1,5 +1,5 @@
 var express = require('express')
-  , app =express.createServer()
+  , app = express.createServer()
   , io = require('socket.io').listen(app);
 
 app.listen(3000);
@@ -10,6 +10,8 @@ app.configure(function() {
 
 
 io.sockets.on('connection', function (socket) {
+  socket.emit("HELO", null);
+
   socket.on('clientVelocity', function(data){
     if(data.b > 0 && Math.abs(data.g) < 70){
       angle = data.b
