@@ -1,36 +1,35 @@
-<!DOCTYPE html>
 <html>
-<body>
-  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/15/jquery.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-  var socket = io.connect('http://localhost');
-  socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
-  });
-  </script>
-   
-<audio controls="controls" id="audio-controls">
-  <source src="doublewide.mp3" type="audio/mp3" />
-</audio>
-<div id="slider">
-  </div>
+<script src="/socket.io/socket.io.js"></script>
 <script>
-$("#slider").slider({
-    value  : 75,
-    step   : 1,
-    range  : 'min',
-    min    : 0,
-    max    : 100,
-    change : function(){
-        var value = $("#slider").slider("value");
-        document.getElementById("audio-controls").volume = (value / 100);
+  var socket = io.connect(window.location.origin);
+  var y = 0;
+  var z = 0;
+
+  position = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
+  var lastHit = new Date().getTime()
+  window.addEventListener('devicemotion', function(event) {
+    y = event.acceleration.y
+    z = event.acceleration.z
+    if(Math.sqrt(Math.pow(y * 15, 2) + Math.pow(z * 15, 2)) > 100){
+      var next = new Date().getTime()
+      if(next - lastHit > 300){
+        lastHit = next;
+        socket.emit('hit', position)
+      } 
     }
-});
+  })
+
+  var b = 0;
+  var g = 0;
+  window.addEventListener('deviceorientation', function(event){
+    b = event.beta;
+    g = event.gamma;
+  }, true)  
+  
+  socket.on('get' + position + 'Velocity', function(){
+    data = {'y' : y, 'z': z, 'b': b, 'g': g}
+    socket.emit('clientVelocity', data);
+  })
+  
 </script>
 </html>
-</body>
