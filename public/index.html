@@ -33,7 +33,7 @@
     socket.emit('clientVelocity', data);
   });
 
-  socket.on("HELO", function(data) {
+  socket.on("HELO", function() {
     document.getElementById("main").appendChild(document.createTextNode("START BUMPING"));
   });
   
