@@ -1,22 +1,20 @@
 <html>
-<head>
 <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io.connect(window.location.origin);
   var y = 0;
   var z = 0;
 
-  position = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
-
-  var lastHit = new Date().getTime();
+  position = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
+  var lastHit = new Date().getTime()
   window.addEventListener('devicemotion', function(event) {
-    y = event.acceleration.y;
-    z = event.acceleration.z;
+    y = event.acceleration.y
+    z = event.acceleration.z
     if(Math.sqrt(Math.pow(y * 15, 2) + Math.pow(z * 15, 2)) > 100){
-      var next = new Date().getTime();
+      var next = new Date().getTime()
       if(next - lastHit > 300){
         lastHit = next;
-        socket.emit('hit', position);
+        socket.emit('gotVelocity', position)
       } 
     }
   })
@@ -31,13 +29,7 @@
   socket.on('get' + position + 'Velocity', function(){
     data = {'y' : y, 'z': z, 'b': b, 'g': g}
     socket.emit('clientVelocity', data);
-  });
-
-  socket.on("HELO", function(data) {
-    document.getElementById("main").appendChild(document.createTextNode("START BUMPING"));
-  });
+  })
   
 </script>
-</head>
-<body><div id="main"></div></body>
 </html>
