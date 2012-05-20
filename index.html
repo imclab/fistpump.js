@@ -1,4 +1,5 @@
 <html>
+<head>
 <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io.connect(window.location.origin);
@@ -30,7 +31,13 @@
   socket.on('get' + position + 'Velocity', function(){
     data = {'y' : y, 'z': z, 'b': b, 'g': g}
     socket.emit('clientVelocity', data);
-  })
+  });
+
+  socket.on("HELO", function() {
+
+  });
   
 </script>
+</head>
+<body><div id="main"></div></body>
 </html>
