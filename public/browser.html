@@ -2,10 +2,20 @@
 <html>
   <head>
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <style>
+      .description {
+        position: absolute;
+        right: 0px;
+        font-size: 99px;
+        font-family: Helvetica;
+        top: 20px;
+        z-index: 200;
+        font-weight: bold;
+      }
+    </style>
     <title>FistPump.js Browser</title>
   </head>
 <body>
-  <div id="jGaugeDemo" class="jgauge"></div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
@@ -19,7 +29,7 @@
 
       var data = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Volume', volume]
+          ['THA FUNK', volume]
           ]);
 
       var options = {
@@ -48,6 +58,10 @@
   </script>
 
   <div id='chart_div'></div>
+  <div class="description">
+    FISTPUMP.JIT.SU
+
+  </div>
 
   <audio controls="controls" id="audio-controls">
     <source src="crazy.mp3" type="audio/mp3" />
