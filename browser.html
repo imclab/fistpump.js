@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/15/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+  var socket = io.connect('http://localhost');
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+  });
+  </script>
+   
+<audio controls="controls" id="audio-controls">
+  <source src="doublewide.mp3" type="audio/mp3" />
+</audio>
+<div id="slider">
+  </div>
+<script>
+$("#slider").slider({
+    value  : 75,
+    step   : 1,
+    range  : 'min',
+    min    : 0,
+    max    : 100,
+    change : function(){
+        var value = $("#slider").slider("value");
+        document.getElementById("audio-controls").volume = (value / 100);
+    }
+});
+</script>
+</html>
+</body>
