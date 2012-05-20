@@ -13,7 +13,7 @@
   var socket = io.connect('/');
   socket.on('browserVolume', function (data) {
     var value = $("#slider").slider("value");
-    document.getElementById("audio-controls").volume = (value + 1 / 100);
+    document.getElementById("audio-controls").volume = ((value + 1) / 100);
     console.log(data);
   });
   </script>
