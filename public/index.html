@@ -1,43 +1,57 @@
-<html>
-<head>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-  var socket = io.connect(window.location.origin);
-  var y = 0;
-  var z = 0;
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fistbumb.js</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="span12">
+          <h1>Foobar!</h1>
+        </div>
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect(window.location.origin);
+      var y = 0;
+      var z = 0;
 
-  position = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+      position = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
 
-  var lastHit = new Date().getTime();
-  window.addEventListener('devicemotion', function(event) {
-    y = event.acceleration.y;
-    z = event.acceleration.z;
-    if(Math.sqrt(Math.pow(y * 15, 2) + Math.pow(z * 15, 2)) > 100){
-      var next = new Date().getTime();
-      if(next - lastHit > 300){
-        lastHit = next;
-        socket.emit('hit', position);
-      } 
-    }
-  })
+      var lastHit = new Date().getTime();
+      window.addEventListener('devicemotion', function(event) {
+        y = event.acceleration.y;
+        z = event.acceleration.z;
+        if(Math.sqrt(Math.pow(y * 15, 2) + Math.pow(z * 15, 2)) > 100){
+          var next = new Date().getTime();
+          if(next - lastHit > 300){
+            lastHit = next;
+            socket.emit('hit', position);
+          } 
+        }
+      })
 
-  var b = 0;
-  var g = 0;
-  window.addEventListener('deviceorientation', function(event){
-    b = event.beta;
-    g = event.gamma;
-  }, true)  
-  
-  socket.on('get' + position + 'Velocity', function(){
-    data = {'y' : y, 'z': z, 'b': b, 'g': g}
-    socket.emit('clientVelocity', data);
-  });
+      var b = 0;
+      var g = 0;
+      window.addEventListener('deviceorientation', function(event){
+        b = event.beta;
+        g = event.gamma;
+      }, true)  
+      
+      socket.on('get' + position + 'Velocity', function(){
+        data = {'y' : y, 'z': z, 'b': b, 'g': g}
+        socket.emit('clientVelocity', data);
+      });
 
-  socket.on("HELO", function() {
-    document.getElementById("main").appendChild(document.createTextNode("START BUMPING"));
-  });
-  
-</script>
-</head>
-<body><div id="main"></div></body>
+      socket.on("HELO", function() {
+        document.getElementById("main").appendChild(document.createTextNode("START BUMPING"));
+      });
+      
+    </script>
+  </body>
 </html>
