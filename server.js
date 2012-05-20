@@ -1,10 +1,11 @@
-var app = require('express').createServer()
+var express = require('express')
+  , app =express.createServer()
   , io = require('socket.io').listen(app);
 
 app.listen(3000);
 
-app.get('/', function (req, res) {
-  res.sendfile(__dirname + '/index.html');
+app.configure(function() {
+  app.use(express.static('./public'));
 });
 
 io.sockets.on('connection', function (socket) {
