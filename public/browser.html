@@ -8,26 +8,46 @@
   <div id="jGaugeDemo" class="jgauge"></div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-  <script language="javascript" type="text/javascript" src="/js/raphael-min.js"></script>
-  <script language="javascript" type="text/javascript" src="/js/jgauge.js"></script>
 
+  <script type='text/javascript' src='https://www.google.com/jsapi'></script>
   <script src="/socket.io/socket.io.js"></script>
-  <script>
-    var socket = io.connect('/');
-    var myGauge = new jGauge(); // Create a new jGauge.
-    myGauge.id = 'jGaugeDemo'; // Link the new jGauge to the placeholder DIV.
+  <script type='text/javascript'>
+    google.load('visualization', '1', {packages:['gauge']});
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var volume = $("#audio-controls")[0].volume;
 
-    socket.on('browserVolume', function (data) {
-      var value = $("#audio-controls")[0].volume;
-      $("#audio-controls")[0].volume = value + (1 / 100);
-      myGauge.setValue(value * 100);
-    });
+      var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Volume', volume]
+          ]);
+
+      var options = {
+        width: 1000, height: 1000,
+        redFrom: 90, redTo: 100,
+        yellowFrom:75, yellowTo: 90,
+       minorTicks: 5
+      };
+
+      var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
 
     $(document).ready(function() {
-      myGauge.init(); // Put the jGauge on the page by initialising it.
+      var socket = io.connect('/');
+
+      socket.on('browserVolume', function (data) {
+        var value = $("#audio-controls")[0].volume;
+        $("#audio-controls")[0].volume = value + (1 / 100);
+        console.log("here")
+        drawChart();
+      });
+
       $("#audio-controls")[0].volume = 0;
     });
   </script>
+
+  <div id='chart_div'></div>
 
   <audio controls="controls" id="audio-controls">
     <source src="crazy.mp3" type="audio/mp3" />
