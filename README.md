@@ -1,3 +1,3 @@
-#Node Boilerplate#
+#Fistpump.js#
 
-This is as simple as it gets. Just download it into a folder and start editing. It's recommended to use nodemon for development.
+Play a song in your browser, and tell your audience to fistpump if they like it. It'll get louder. People will bring tha noise. Built at TechCrunch Disrupt 2012. 
